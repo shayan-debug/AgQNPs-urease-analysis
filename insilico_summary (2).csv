@@ -1,0 +1,11 @@
+Analysis,Result,Interpretation
+Lipinski Rule of 5 (RDKit),"0 violations (HBD=5, borderline)",Drug-like but at boundary
+ADMET — TPSA (SwissADME),131.36 A2,High polarity limits absorption
+ADMET — GI Absorption,High,Adequate oral bioavailability
+ADMET — Bioavailability Score,0.55,Moderate oral bioavailability
+ADMET — PAINS Alert,1 alert: catechol_A,May cause assay interference in free form
+DFT Interaction Energy (Singlet),-53.79 kcal/mol,"Strong binding, singlet favored"
+DFT Interaction Energy (Doublet),-50.77 kcal/mol,"Moderate binding, doublet state"
+AutoDock Vina — Best Binding Affinity,-7.214 kcal/mol,Favorable binding to urease active site
+IC50 — Quercetin (free),5610 ug/mL,Low potency as free molecule
+IC50 — Ag@QNPs,22.4 ug/mL (250x more potent),Nanoparticle overcomes ADMET limitations
