@@ -3,10 +3,11 @@
 [![DOI](https://img.shields.io/badge/DOI-10.1038%2Fs41598--025--96684--2-blue)](https://doi.org/10.1038/s41598-025-96684-2)
 [![Python](https://img.shields.io/badge/Python-3.10-green)](https://www.python.org/)
 [![RDKit](https://img.shields.io/badge/RDKit-2024-orange)](https://www.rdkit.org/)
+[![AutoDock Vina](https://img.shields.io/badge/AutoDock_Vina-1.2.3-purple)](https://github.com/ccsb-scripps/AutoDock-Vina)
 
 Computational analysis supporting the **Scientific Reports 2025** paper on silver-quercetin nanoparticles (Ag@QNPs) as urease inhibitors.
 
-> **Key finding:** Ag@QNPs show **250× greater potency** than free quercetin (IC₅₀: 22.4 vs 5610 µg/mL), justified by both DFT interaction energies and ADMET profiling.
+> **Key finding:** Ag@QNPs show **250× greater potency** than free quercetin (IC₅₀: 22.4 vs 5610 µg/mL), justified by DFT interaction energies, ADMET profiling, and molecular docking.
 
 ---
 
@@ -15,11 +16,15 @@ Computational analysis supporting the **Scientific Reports 2025** paper on silve
 ```
 AgQNPs-urease-analysis/
 ├── notebooks/
-│   ├── lipinski_analysis.ipynb     # Rule of 5 + RDKit
-│   ├── dft_interaction_plot.ipynb  # Singlet/Doublet energy plot
-│   └── ic50_comparison.ipynb       # Potency visualization
+│   ├── lipinski_analysis.ipynb          # Rule of 5 + RDKit
+│   ├── dft_interaction_plot.ipynb       # Singlet/Doublet energy plot
+│   ├── ic50_comparison.ipynb            # Potency visualization
+│   └── urease_docking_v2.ipynb          # AutoDock Vina docking pipeline
 ├── data/
-│   └── swissadme_quercetin.csv     # ADMET results
+│   ├── swissadme_quercetin.csv          # ADMET results
+│   ├── insilico_summary.csv             # All in silico results combined
+│   ├── docking_affinities.png           # Docking bar chart
+│   └── docked.pdbqt                     # Best docked poses
 └── README.md
 ```
 
@@ -112,6 +117,32 @@ Quercetin profiled at [swissadme.ch](http://www.swissadme.ch):
 
 ---
 
+## 5. Molecular Docking — AutoDock Vina
+
+Quercetin docked into *Helicobacter pylori* urease active site (PDB: 4H9M, resolution 1.95 Å).
+
+### Methods
+- Receptor: PDB 4H9M, chain A, cleaned with OpenBabel
+- Ligand: Quercetin 3D structure, MMFF94 optimized via RDKit
+- Grid center: Ni²⁺ active site (x=18.78, y=−57.81, z=−24.15 Å)
+- Grid size: 20 × 20 × 20 Å | Exhaustiveness: 16
+
+### Results
+
+| Mode | Binding Affinity (kcal/mol) | RMSD l.b. | RMSD u.b. |
+|------|----------------------------|-----------|-----------|
+| **1** | **−7.214** | 0 | 0 |
+| 2 | −7.169 | 1.479 | 3.073 |
+| 3 | −7.047 | 2.453 | 6.213 |
+| 4 | −7.000 | 2.003 | 2.519 |
+| 5 | −6.824 | 1.555 | 3.203 |
+
+> **Best binding affinity: −7.214 kcal/mol** — consistent with favorable interaction at the Ni²⁺ binding pocket, supporting the experimental IC₅₀ data.
+
+![Docking Affinities](data/docking_affinities.png)
+
+---
+
 ## SMILES
 
 ```
@@ -125,6 +156,9 @@ Quercetin: O=c1c(O)c(-c2ccc(O)c(O)c2)oc2cc(O)cc(O)c12
 If you use this analysis, please cite:
 
 > Asadi, S. et al. *Silver-quercetin nanoparticles as urease inhibitors*. Scientific Reports (2025). https://doi.org/10.1038/s41598-025-96684-2
+
+AutoDock Vina:
+> Eberhardt, J. et al. AutoDock Vina 1.2.0. *J. Chem. Inf. Model.* 61, 3891–3898 (2021).
 
 ---
 
