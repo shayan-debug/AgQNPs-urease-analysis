@@ -122,10 +122,11 @@ Quercetin profiled at [swissadme.ch](http://www.swissadme.ch):
 Quercetin docked into *Helicobacter pylori* urease active site (PDB: 4H9M, resolution 1.95 Å).
 
 ### Methods
-- Receptor: PDB 4H9M, chain A, cleaned with OpenBabel
-- Ligand: Quercetin 3D structure, MMFF94 optimized via RDKit
-- Grid center: Ni²⁺ active site (x=18.78, y=−57.81, z=−24.15 Å)
-- Grid size: 20 × 20 × 20 Å | Exhaustiveness: 16
+
+- **Receptor:** PDB 4H9M (*H. pylori* urease, resolution 1.95 Å). Chain A was selected as the biologically active subunit containing the catalytic Ni²⁺ ions. Water molecules and non-essential HETATM records were removed; Ni²⁺ ions were retained to preserve the active site geometry.
+- **Ligand:** Quercetin 3D structure generated from SMILES, energy-minimized using MMFF94 force field via RDKit, and converted to PDBQT using Meeko.
+- **Grid box:** Centered on the Ni²⁺ coordination site (x = 18.78, y = −57.81, z = −24.15 Å); box size 20 × 20 × 20 Å to encompass the full active site cavity.
+- **Exhaustiveness:** 16 (2× default) for thorough conformational sampling.
 
 ### Results
 
@@ -148,7 +149,18 @@ Quercetin docked into *Helicobacter pylori* urease active site (PDB: 4H9M, resol
 ```
 Quercetin: O=c1c(O)c(-c2ccc(O)c(O)c2)oc2cc(O)cc(O)c12
 ```
+## Tools & Environment
 
+| Tool | Version | Purpose |
+|------|---------|---------|
+| Python | 3.10 | Core scripting |
+| RDKit | 2024.03 | Ligand preparation, Lipinski, SMILES handling |
+| AutoDock Vina | 1.2.3 | Molecular docking |
+| OpenBabel | 3.1.1 | Format conversion (PDB → PDBQT) |
+| Meeko | 0.5 | Ligand PDBQT preparation |
+| Google Colab | — | Compute environment |
+
+All notebooks are self-contained and reproducible in Google Colab without local installation.
 ---
 
 ## Citation
