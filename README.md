@@ -4,10 +4,11 @@
 [![Python](https://img.shields.io/badge/Python-3.10-green)](https://www.python.org/)
 [![RDKit](https://img.shields.io/badge/RDKit-2024-orange)](https://www.rdkit.org/)
 [![AutoDock Vina](https://img.shields.io/badge/AutoDock_Vina-1.2.3-purple)](https://github.com/ccsb-scripps/AutoDock-Vina)
+[![OpenMM](https://img.shields.io/badge/OpenMM-8.5-red)](https://openmm.org/)
 
 Computational analysis supporting the **Scientific Reports 2025** paper on silver-quercetin nanoparticles (Ag@QNPs) as urease inhibitors.
 
-> **Key finding:** Ag@QNPs show **250× greater potency** than free quercetin (IC₅₀: 22.4 vs 5610 µg/mL), justified by DFT interaction energies, ADMET profiling, and molecular docking.
+> **Key finding:** Ag@QNPs show **250× greater potency** than free quercetin (IC₅₀: 22.4 vs 5610 µg/mL), justified by DFT interaction energies, ADMET profiling, molecular docking, and MD simulation.
 
 ---
 
@@ -16,15 +17,16 @@ Computational analysis supporting the **Scientific Reports 2025** paper on silve
 ```
 AgQNPs-urease-analysis/
 ├── notebooks/
-│   ├── lipinski_analysis.ipynb          # Rule of 5 + RDKit
-│   ├── dft_interaction_plot.ipynb       # Singlet/Doublet energy plot
-│   ├── ic50_comparison.ipynb            # Potency visualization
-│   └── urease_docking_v2.ipynb          # AutoDock Vina docking pipeline
+│   ├── lipinski_dft_ic50.ipynb           # Rule of 5 + DFT + IC₅₀ visualization
+│   ├── urease_docking_v2.ipynb           # AutoDock Vina docking pipeline
+│   └── urease_active_site_MD.ipynb       # OpenMM molecular dynamics simulation
 ├── data/
-│   ├── swissadme_quercetin.csv          # ADMET results
-│   ├── insilico_summary.csv             # All in silico results combined
-│   ├── docking_affinities.png           # Docking bar chart
-│   └── docked.pdbqt                     # Best docked poses
+│   ├── insilico_summary.csv              # All in silico results combined
+│   ├── docking_affinities.png            # Docking bar chart
+│   ├── docked.pdbqt                      # Best docked poses (AutoDock Vina)
+│   ├── docking_pose.png                  # 3D docking visualization
+│   ├── rmsd_plot.png                     # MD backbone RMSD (100 ps)
+│   └── rmsf_plot.png                     # MD per-residue RMSF (100 ps)
 └── README.md
 ```
 
@@ -138,9 +140,38 @@ Quercetin docked into *Helicobacter pylori* urease active site (PDB: 4H9M, resol
 | 4 | −7.000 | 2.003 | 2.519 |
 | 5 | −6.824 | 1.555 | 3.203 |
 
-> **Best binding affinity: −7.214 kcal/mol** — consistent with favorable interaction at the Ni²⁺ binding pocket, supporting the experimental IC₅₀ data.
+> **Best binding affinity: −7.214 kcal/mol** — consistent with favorable interaction at the Ni²⁺ binding pocket, supporting the experimental IC₅₀ data. All five binding modes cluster within −7.2 to −6.8 kcal/mol, indicating stable and consistent binding.
 
 ![Docking Affinities](data/docking_affinities.png)
+
+---
+
+## 6. Molecular Dynamics Simulation — OpenMM
+
+100 ps MD simulation of the urease active site with quercetin docking pose as starting structure.
+
+### Methods
+
+- **System:** Urease active site (PDB: 4H9M), residues within 20 Å of the Ni²⁺ catalytic center (232 residues, 20,080 total atoms including solvent)
+- **Force field:** AMBER14 (protein) + TIP3P water model
+- **Ionic strength:** 150 mM NaCl
+- **Minimization:** 500 iterations
+- **Equilibration:** NVT 50 ps → NPT 50 ps (300 K, 1 bar)
+- **Production:** 100 ps, timestep 2 fs, Langevin thermostat (friction 1 ps⁻¹)
+- **Software:** OpenMM 8.5, MDAnalysis, Google Colab
+
+### Results
+
+| Metric | Value | Interpretation |
+|--------|-------|----------------|
+| Backbone RMSD (mean) | ~1.0 Å | Stable — within acceptable range |
+| RMSF range | 0.4 – 1.3 Å | Moderate flexibility, stable core |
+| Temperature stability | 300 ± 5 K | Well-equilibrated |
+
+> The active site maintains structural stability throughout the 100 ps trajectory (RMSD < 1.5 Å), consistent with a well-folded binding pocket. Loop regions show higher RMSF values as expected.
+
+![RMSD](data/rmsd_plot.png)
+![RMSF](data/rmsf_plot.png)
 
 ---
 
@@ -149,6 +180,9 @@ Quercetin docked into *Helicobacter pylori* urease active site (PDB: 4H9M, resol
 ```
 Quercetin: O=c1c(O)c(-c2ccc(O)c(O)c2)oc2cc(O)cc(O)c12
 ```
+
+---
+
 ## Tools & Environment
 
 | Tool | Version | Purpose |
@@ -158,9 +192,13 @@ Quercetin: O=c1c(O)c(-c2ccc(O)c(O)c2)oc2cc(O)cc(O)c12
 | AutoDock Vina | 1.2.3 | Molecular docking |
 | OpenBabel | 3.1.1 | Format conversion (PDB → PDBQT) |
 | Meeko | 0.5 | Ligand PDBQT preparation |
-| Google Colab | — | Compute environment |
+| OpenMM | 8.5 | Molecular dynamics simulation |
+| MDAnalysis | 2.10 | Trajectory analysis (RMSD, RMSF) |
+| PDBFixer | — | Receptor preparation for MD |
+| Google Colab | — | Compute environment (T4 GPU) |
 
 All notebooks are self-contained and reproducible in Google Colab without local installation.
+
 ---
 
 ## Citation
@@ -172,9 +210,12 @@ If you use this analysis, please cite:
 AutoDock Vina:
 > Eberhardt, J. et al. AutoDock Vina 1.2.0. *J. Chem. Inf. Model.* 61, 3891–3898 (2021).
 
+OpenMM:
+> Eastman, P. et al. OpenMM 8. *J. Phys. Chem. B* 127, 4169–4182 (2023).
+
 ---
 
 ## Author
 
-**Shayan Asadi** — Medicinal Chemistry  
+**Shayan Asadi** — Medicinal Chemistry, Zanjan University of Medical Sciences
 GitHub: [@shayan-debug](https://github.com/shayan-debug)
