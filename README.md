@@ -62,11 +62,12 @@ Singlet state shows stronger binding, consistent with experimental urease inhibi
 
 ## 3. IC₅₀ Comparison
 
-| Compound | IC₅₀ (µg/mL) | Relative Potency |
-|----------|--------------|-----------------|
-| Quercetin (free) | 5610 | 1× |
-| **Ag@QNPs** | **22.4** | **250×** |
+| Compound | IC₅₀ (µg/mL) | Note |
+|----------|--------------|------|
+| Quercetin (free) | 9.581 ± 0.38 | experimental |
+| **Ag@QNPs** | **0.473 ± 0.09** | experimental (total mass) |
 
+> **Note on the 250× figure:** The 250× potency improvement reported in the paper is calculated on a quercetin-equivalent basis: Ag@QNPs at 167 µg/mL contain approximately 20 µg/mL of quercetin (12% loading efficiency), giving an effective quercetin IC₅₀ of ~0.038 µg/mL versus 9.581 µg/mL for the free compound. The raw IC₅₀ values above are based on total nanoparticle mass.
 ---
 
 ## 4. ADMET Profiling — SwissADME
