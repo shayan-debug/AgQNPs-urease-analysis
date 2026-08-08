@@ -8,7 +8,7 @@
 
 Computational analysis supporting the **Scientific Reports 2025** paper on silver-quercetin nanoparticles (Ag@QNPs) as urease inhibitors.
 
-> **Key finding:** Ag@QNPs show **250× greater potency** than free quercetin (IC₅₀: 0.473 vs 9.581 µg/mL), justified by DFT interaction energies, ADMET profiling, molecular docking, and MD simulation.
+> **Key finding:** Ag@QNPs show **20× greater potency** than free quercetin (IC₅₀: 0.473 vs 9.581 µg/mL), justified by DFT interaction energies, ADMET profiling, molecular docking, and MD simulation.
 
 ---
 
