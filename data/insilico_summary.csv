@@ -7,5 +7,5 @@ ADMET — PAINS Alert,1 alert: catechol_A,May cause assay interference in free f
 DFT Interaction Energy (Singlet),-53.79 kcal/mol,"Strong binding, singlet favored"
 DFT Interaction Energy (Doublet),-50.77 kcal/mol,"Moderate binding, doublet state"
 AutoDock Vina — Best Binding Affinity,-7.214 kcal/mol,Favorable binding to urease active site
-IC50 — Quercetin (free),5610 ug/mL,Low potency as free molecule
-IC50 — Ag@QNPs,22.4 ug/mL (250x more potent),Nanoparticle overcomes ADMET limitations
+IC50 — Quercetin (free),9.581 ug/mL,Low potency as free molecule
+IC50 — Ag@QNPs,0.473 ug/mL (20x more potent),Nanoparticle overcomes ADMET limitations
